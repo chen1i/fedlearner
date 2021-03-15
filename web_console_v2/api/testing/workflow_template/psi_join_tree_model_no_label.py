@@ -41,7 +41,7 @@ def make_workflow_template():
         job_definitions=[
             JobDefinition(
                 name='raw-data-job',
-                type=JobDefinition.RAW_DATA,
+                job_type=JobDefinition.RAW_DATA,
                 is_federated=False,
                 is_manual=False,
                 variables=[
@@ -110,15 +110,15 @@ def make_workflow_template():
                                     ${system.basic_envs},
                                     {
                                         "name": "EGRESS_URL",
-                                        "value": "${project.variables.egress_url}"
+                                        "value": "fedlearner-stack-ingress-nginx-controller.default.svc.cluster.local:80"
                                     },
                                     {
                                         "name": "EGRESS_HOST",
-                                        "value": "${project.variables.egress_host}"
+                                        "value": "${project.participants[0].egress_host}"
                                     },
                                     {
                                         "name": "EGRESS_DOMAIN",
-                                        "value": "${project.variables.egress_domain}"
+                                        "value": "${project.participants[0].egress_domain}"
                                     },
                                     {
                                         "name": "STORAGE_ROOT_PATH",
@@ -211,15 +211,15 @@ def make_workflow_template():
                                     ${system.basic_envs},
                                     {
                                         "name": "EGRESS_URL",
-                                        "value": "${project.variables.egress_url}"
+                                        "value": "fedlearner-stack-ingress-nginx-controller.default.svc.cluster.local:80"
                                     },
                                     {
                                         "name": "EGRESS_HOST",
-                                        "value": "${project.variables.egress_host}"
+                                        "value": "${project.participants[0].egress_host}"
                                     },
                                     {
                                         "name": "EGRESS_DOMAIN",
-                                        "value": "${project.variables.egress_domain}"
+                                        "value": "${project.participants[0].egress_domain}"
                                     },
                                     {
                                         "name": "STORAGE_ROOT_PATH",
@@ -281,7 +281,7 @@ def make_workflow_template():
             ),
             JobDefinition(
                 name='data-join-job',
-                type=JobDefinition.PSI_DATA_JOIN,
+                job_type=JobDefinition.PSI_DATA_JOIN,
                 is_federated=True,
                 is_manual=False,
                 variables=[
@@ -315,7 +315,7 @@ def make_workflow_template():
         "peerSpecs": {
             "Follower": {
                 "peerURL": "fedlearner-stack-ingress-nginx-controller.default.svc.cluster.local:80",
-                "authority": "${project.variables.egress_domain}",
+                "authority": "${project.participants[0].egress_domain}",
                 "extraHeaders": {
                     "x-host": "default.fedlearner.operator"
                 }
@@ -332,15 +332,15 @@ def make_workflow_template():
                                     ${system.basic_envs},
                                     {
                                         "name": "EGRESS_URL",
-                                        "value": "${project.variables.egress_url}"
+                                        "value": "fedlearner-stack-ingress-nginx-controller.default.svc.cluster.local:80"
                                     },
                                     {
                                         "name": "EGRESS_HOST",
-                                        "value": "${project.variables.egress_host}"
+                                        "value": "${project.participants[0].egress_host}"
                                     },
                                     {
                                         "name": "EGRESS_DOMAIN",
-                                        "value": "${project.variables.egress_domain}"
+                                        "value": "${project.participants[0].egress_domain}"
                                     },
                                     {
                                         "name": "APPLICATION_ID",
@@ -440,15 +440,15 @@ def make_workflow_template():
                                     ${system.basic_envs},
                                     {
                                         "name": "EGRESS_URL",
-                                        "value": "${project.variables.egress_url}"
+                                        "value": "fedlearner-stack-ingress-nginx-controller.default.svc.cluster.local:80"
                                     },
                                     {
                                         "name": "EGRESS_HOST",
-                                        "value": "${project.variables.egress_host}"
+                                        "value": "${project.participants[0].egress_host}"
                                     },
                                     {
                                         "name": "EGRESS_DOMAIN",
-                                        "value": "${project.variables.egress_domain}"
+                                        "value": "${project.participants[0].egress_domain}"
                                     },
                                     {
                                         "name": "STORAGE_ROOT_PATH",
@@ -573,7 +573,7 @@ def make_workflow_template():
             ),
             JobDefinition(
                 name='train-job',
-                type=JobDefinition.TREE_MODEL_TRAINING,
+                job_type=JobDefinition.TREE_MODEL_TRAINING,
                 is_federated=True,
                 is_manual=False,
                 variables=[
@@ -607,7 +607,7 @@ def make_workflow_template():
         "peerSpecs": {
             "Leader": {
                 "peerURL": "fedlearner-stack-ingress-nginx-controller.default.svc.cluster.local:80",
-                "authority": "${project.variables.egress_domain}",
+                "authority": "${project.participants[0].egress_domain}",
                 "extraHeaders": {
                     "x-host": "default.fedlearner.operator"
                 }
@@ -624,15 +624,15 @@ def make_workflow_template():
                                     ${system.basic_envs},
                                     {
                                         "name": "EGRESS_URL",
-                                        "value": "${project.variables.egress_url}"
+                                        "value": "fedlearner-stack-ingress-nginx-controller.default.svc.cluster.local:80"
                                     },
                                     {
                                         "name": "EGRESS_HOST",
-                                        "value": "${project.variables.egress_host}"
+                                        "value": "${project.participants[0].egress_host}"
                                     },
                                     {
                                         "name": "EGRESS_DOMAIN",
-                                        "value": "${project.variables.egress_domain}"
+                                        "value": "${project.participants[0].egress_domain}"
                                     },
                                     {
                                         "name": "APPLICATION_ID",

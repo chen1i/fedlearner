@@ -39,7 +39,7 @@ def make_workflow_template():
         job_definitions=[
             JobDefinition(
                 name='raw-data-job',
-                type=JobDefinition.RAW_DATA,
+                job_type=JobDefinition.RAW_DATA,
                 is_federated=False,
                 is_manual=False,
                 variables=[
@@ -125,7 +125,6 @@ def make_workflow_template():
                                 "args": [],
                                 "env": [
                                     ${system.basic_envs},
-                                    ${project.variables.basic_envs},
                                     {
                                         "name": "ETCD_NAME",
                                         "value": "fedlearner"
@@ -144,11 +143,11 @@ def make_workflow_template():
                                     },
                                     {
                                         "name": "EGRESS_HOST",
-                                        "value": "${project.variables.egress_host}"
+                                        "value": "${project.participants[0].egress_host}"
                                     },
                                     {
                                         "name": "EGRESS_DOMAIN",
-                                        "value": "${project.variables.egress_domain}"
+                                        "value": "${project.participants[0].egress_domain}"
                                     },
                                     {
                                         "name": "STORAGE_ROOT_PATH",
@@ -272,11 +271,11 @@ def make_workflow_template():
                                     },
                                     {
                                         "name": "EGRESS_HOST",
-                                        "value": "${project.variables.egress_host}"
+                                        "value": "${project.participants[0].egress_host}"
                                     },
                                     {
                                         "name": "EGRESS_DOMAIN",
-                                        "value": "${project.variables.egress_domain}"
+                                        "value": "${project.participants[0].egress_domain}"
                                     },
                                     {
                                         "name": "STORAGE_ROOT_PATH",
@@ -299,7 +298,6 @@ def make_workflow_template():
                                         }
                                     },
                                     ${system.basic_envs},
-                                    ${project.variables.basic_envs},
                                     {
                                         "name": "CPU_REQUEST",
                                         "valueFrom": {
@@ -388,7 +386,7 @@ def make_workflow_template():
             ),
             JobDefinition(
                 name='data-join-job',
-                type=JobDefinition.DATA_JOIN,
+                job_type=JobDefinition.DATA_JOIN,
                 is_federated=True,
                 is_manual=False,
                 variables=[
@@ -426,7 +424,7 @@ def make_workflow_template():
         "peerSpecs": {
             "Leader": {
                 "peerURL": "fedlearner-stack-ingress-nginx-controller.default.svc.cluster.local:80",
-                "authority": "${project.variables.egress_domain}",
+                "authority": "${project.participants[0].egress_domain}",
                 "extraHeaders": {
                     "x-host": "default.fedlearner.operator"
                 }
@@ -441,7 +439,6 @@ def make_workflow_template():
                             {
                                 "env": [
                                     ${system.basic_envs},
-                                    ${project.variables.basic_envs},
                                     {
                                         "name": "STORAGE_ROOT_PATH",
                                         "value": "${project.variables.storage_root_dir}"
@@ -524,11 +521,11 @@ def make_workflow_template():
                                     },
                                     {
                                         "name": "EGRESS_HOST",
-                                        "value": "${project.variables.egress_host}"
+                                        "value": "${project.participants[0].egress_host}"
                                     },
                                     {
                                         "name": "EGRESS_DOMAIN",
-                                        "value": "${project.variables.egress_domain}"
+                                        "value": "${project.participants[0].egress_domain}"
                                     },
                                     {
                                         "name": "BATCH_MODE",
@@ -618,7 +615,6 @@ def make_workflow_template():
                             {
                                 "env": [
                                     ${system.basic_envs},
-                                    ${project.variables.basic_envs},
                                     {
                                         "name": "STORAGE_ROOT_PATH",
                                         "value": "${project.variables.storage_root_dir}"
@@ -701,11 +697,11 @@ def make_workflow_template():
                                     },
                                     {
                                         "name": "EGRESS_HOST",
-                                        "value": "${project.variables.egress_host}"
+                                        "value": "${project.participants[0].egress_host}"
                                     },
                                     {
                                         "name": "EGRESS_DOMAIN",
-                                        "value": "${project.variables.egress_domain}"
+                                        "value": "${project.participants[0].egress_domain}"
                                     },
                                     {
                                         "name": "PARTITION_NUM",
@@ -822,7 +818,7 @@ def make_workflow_template():
             ),
             JobDefinition(
                 name='train-job',
-                type=JobDefinition.NN_MODEL_TRANINING,
+                job_type=JobDefinition.NN_MODEL_TRANINING,
                 is_federated=True,
                 is_manual=False,
                 variables=[
@@ -849,7 +845,7 @@ def make_workflow_template():
         "peerSpecs": {
             "Follower": {
                 "peerURL": "fedlearner-stack-ingress-nginx-controller.default.svc.cluster.local:80",
-                "authority": "${project.variables.egress_domain}",
+                "authority": "${project.participants[0].egress_domain}",
                 "extraHeaders": {
                     "x-host": "default.fedlearner.operator"
                 }
@@ -864,7 +860,6 @@ def make_workflow_template():
                             {
                                 "env": [
                                     ${system.basic_envs},
-                                    ${project.variables.basic_envs},
                                     {
                                         "name": "STORAGE_ROOT_PATH",
                                         "value":  "${project.variables.storage_root_dir}"
@@ -947,11 +942,11 @@ def make_workflow_template():
                                     },
                                     {
                                         "name": "EGRESS_HOST",
-                                        "value": "${project.variables.egress_host}"
+                                        "value": "${project.participants[0].egress_host}"
                                     },
                                     {
                                         "name": "EGRESS_DOMAIN",
-                                        "value": "${project.variables.egress_domain}"
+                                        "value": "${project.participants[0].egress_domain}"
                                     },
                                     {
                                         "name": "DATA_SOURCE",
@@ -1019,7 +1014,6 @@ def make_workflow_template():
                             {
                                 "env": [
                                     ${system.basic_envs},
-                                    ${project.variables.basic_envs},
                                     {
                                         "name": "STORAGE_ROOT_PATH",
                                         "value": "${project.variables.storage_root_dir}"
@@ -1102,11 +1096,11 @@ def make_workflow_template():
                                     },
                                     {
                                         "name": "EGRESS_HOST",
-                                        "value": "${project.variables.egress_host}"
+                                        "value": "${project.participants[0].egress_host}"
                                     },
                                     {
                                         "name": "EGRESS_DOMAIN",
-                                        "value": "${project.variables.egress_domain}"
+                                        "value": "${project.participants[0].egress_domain}"
                                     },
                                     {
                                         "name": "DATA_SOURCE",
@@ -1178,7 +1172,6 @@ def make_workflow_template():
                             {
                                 "env": [
                                     ${system.basic_envs},
-                                    ${project.variables.basic_envs},
                                     {
                                         "name": "STORAGE_ROOT_PATH",
                                         "value": "${project.variables.storage_root_dir}"
@@ -1261,11 +1254,11 @@ def make_workflow_template():
                                     },
                                     {
                                         "name": "EGRESS_HOST",
-                                        "value": "${project.variables.egress_host}"
+                                        "value": "${project.participants[0].egress_host}"
                                     },
                                     {
                                         "name": "EGRESS_DOMAIN",
-                                        "value": "${project.variables.egress_domain}"
+                                        "value": "${project.participants[0].egress_domain}"
                                     },
                                     {
                                         "name": "CODE_KEY",
