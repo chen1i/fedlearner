@@ -10,8 +10,8 @@ TEST_INTERVAL_SECS = 5
 
 def test(mnist):
     with tf.Graph().as_default() as g:
-        x = tf.placeholder(tf.float32, [None, forward.INPUT_NODE])
-        y_ = tf.placeholder(tf.float32, [None, forward.OUTPUT_NODE])
+        x = tf.compat.v1.placeholder(tf.float32, [None, forward.INPUT_NODE])
+        y_ = tf.compat.v1.placeholder(tf.float32, [None, forward.OUTPUT_NODE])
         y = forward.forward(x, None)
 
         ema = tf.train.ExpotentialMovingAverage(backward.MOVING_AVERAGE_DECAY)
@@ -22,7 +22,7 @@ def test(mnist):
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
         while True:
-            with tf.Session() as sess:
+            with tf.compat.v1.Session() as sess:
                 ckpt = tf.train.get_checkpoint_state(backward.MODEL_SAVE_PATH)
                 if ckpt and ckpt.model_checkpoint_path:
                     saver.restore(sess, ckpt.model_checkpoint_path)

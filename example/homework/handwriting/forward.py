@@ -7,10 +7,10 @@ LAYER1_NODE = 500  # invisible layer node number
 
 
 def get_weight(shape, regularizer):
-    w = tf.Variable(tf.truncated_normal(shape, stddev=0.1))
+    w = tf.Variable(tf.random.truncated_normal(shape, stddev=0.1))
     if regularizer:
-        tf.add_to_collection(
-            'lossses', tf.contrib.layers.l2_regularizer(regularizer)(w))
+        tf.compat.v1.add_to_collection(
+            'losses', tf.contrib.layers.l2_regularizer(regularizer)(w))
     return w
 
 

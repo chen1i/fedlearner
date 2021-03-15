@@ -8,6 +8,11 @@ lerna-debug.log*
 log/
 .python-version
 
+venv/
+data/
+__pycache__/
+
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
