@@ -1,7 +1,6 @@
 # coding:utf-8
 import os
 import tensorflow as tf
-from tensorflow.examples.tutorials.mnist import input_data
 import forward
 
 BATCH_SIZE = 200
@@ -14,18 +13,18 @@ MODEL_SAVE_PATH = './model/'
 MODEL_NAME = 'mnist_model'
 
 
-def backword(mnist):
-    x = tf.placeholder(tf.float32, [None, forward.INPUT_NODE])
-    y_ = tf.placeholder(tf.float32, [None, forward.OUTPUT_NODE])
+def backward(mnist):
+    x = tf.compat.v1.placeholder(tf.float32, [None, forward.INPUT_NODE])
+    y_ = tf.compat.v1.placeholder(tf.float32, [None, forward.OUTPUT_NODE])
     y = forward.forward(x, REGULARIZER)
     global_step = tf.Variable(0, trainable=False)
 
-    ce = tf.nn.sparse_softmax_corss_entropy_with_logits(
-        logits=y, lables=tf.argmax(y_, 1))
+    ce = tf.nn.sparse_softmax_cross_entropy_with_logits(
+        logits=y, labels=tf.argmax(y_, 1))
     cem = tf.reduce_mean(ce)
-    loss = cem + tf.add_n(tf.get_collections('losses'))
+    loss = cem + tf.add_n(tf.compat.v1.get_collection('losses'))
 
-    learning_rate = tf.train.exponential_decay(
+    learning_rate = tf.compat.v1.train.exponential_decay(
         LEARNING_RATE_BASE,
         global_step,
         mnist.train.num_examples/BATCH_SIZE,
@@ -42,7 +41,7 @@ def backword(mnist):
 
     saver = tf.train.Saver()
 
-    with tf.Session() as sess:
+    with tf.compat.v1.Session() as sess:
         init_op = tf.global_variables_initializer()
         sess.run(init_op)
 
@@ -58,8 +57,9 @@ def backword(mnist):
 
 
 def main():
-    mnist = input_data.read_data_sets("./data/", one_hot=True)
-    backword(mnist)
+    mnist = tf.keras.datasets.mnist
+    (X_train, y_train), (X_test, y_test) = mnist.load_data()
+    backward(mnist)
 
 
 if __name__ == '__main__':
